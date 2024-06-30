@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "@vitest/ui": "^1.6.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
   }
 }
