@@ -20,18 +20,18 @@ export async function fetchFiles(item: Item, rootRemoteDir: string): Promise<GHF
 export async function processFile(file: GHFile, item: Item, rootRemoteDir: string, localDir: string) {
   let localFilePath;
   let content;
-
   if (file.type === "file") {
     if (path.extname(file.name) === ".mmd") {
       const fileResponse = await axios.get(file.download_url, { responseType: "text" });
       content = `\`\`\`mermaid\n${fileResponse.data}\n\`\`\``;
-      localFilePath = path.join(localDir, item.repoUrl, path.basename(file.path, '.mmd') + '.md');
-    } else {
+    } else if (path.extname(file.name) === ".md") {
       const fileResponse = await axios.get(file.download_url, { responseType: "arraybuffer" });
-      localFilePath = path.join(localDir, item.repoUrl, path.relative(rootRemoteDir, file.path));
       content = fileResponse.data;
+    } else {
+      return;
     }
-
+    localFilePath = path.join(localDir, item.repoUrl, path.relative(rootRemoteDir, file.path));
+    localFilePath = path.join(path.dirname(localFilePath), path.basename(localFilePath, path.extname(localFilePath)) + '.md');
     const localDirPath = path.dirname(localFilePath);
     if (!fs.existsSync(localDirPath)) {
       fs.mkdirSync(localDirPath, { recursive: true });
