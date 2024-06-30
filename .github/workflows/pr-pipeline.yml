@@ -1,0 +1,16 @@
+name: pull-request-ci
+on:
+    pull_request:
+      branches: [main]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Performing tests
+        run: npm run test
