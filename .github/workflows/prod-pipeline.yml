@@ -14,10 +14,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16' # or specify your preferred version
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm ci # Using npm ci for CI environments
+        run: npm ci
 
       - name: Run tests
         run: npm run test
@@ -25,6 +25,11 @@ jobs:
     needs: [tests]
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Deploy to npm
         run: npm publish --provenance --access public
         env:
