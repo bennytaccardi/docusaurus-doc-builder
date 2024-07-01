@@ -3,14 +3,15 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 import { fetchFiles, processFile } from "../..";
 import * as fs from "fs";
 import * as path from "path";
+import { Item } from "../../types";
 
 const rootRemoteDir = "rootRemoteDirTest";
-const item = {
+const item: Item = {
   owner: "testOwner",
-  repoUrl: "testRepo",
-  remoteDir: "testRemoteDir",
+  repoName: "testRepo",
+  remoteDocsDir: "testRemoteDir",
   branch: "testBranch",
-  localName: "testLocalName",
+  localDocsSubdir: "testLocalName",
   token: "testToken"
 }
 const ghMMDFile = {
@@ -40,10 +41,10 @@ describe("fetchFiles", () => {
   })
   it("Should fetch files from GitHub repository", async () => {
     vi.spyOn(axios, "get").mockImplementation(vi.fn().mockResolvedValue(mockResponse));
-    const files = await fetchFiles(item, rootRemoteDir);
+    const files = await fetchFiles(item);
     expect(files).toEqual(mockResponse.data);
     expect(axios.get).toHaveBeenCalledWith(
-      `https://api.github.com/repos/${item.owner}/${item.repoUrl}/contents/${item.remoteDir}?ref=${item.branch}`,
+      `https://api.github.com/repos/${item.owner}/${item.repoName}/contents/${item.remoteDocsDir}?ref=${item.branch}`,
       { headers: { Authorization: `token ${item.token}` } }
     );
   });
@@ -51,7 +52,7 @@ describe("fetchFiles", () => {
   it("Should throw an error if the fetch fails", async () => {
     const testErrorMsg = "Error msg";
     vi.spyOn(axios, "get").mockRejectedValue(new Error(testErrorMsg))
-    await expect(fetchFiles(item, rootRemoteDir)).rejects.toThrow(testErrorMsg);
+    await expect(fetchFiles(item)).rejects.toThrow(testErrorMsg);
   })
 })
 
@@ -62,7 +63,7 @@ describe("processFile", () => {
     const mockAxiosGet = vi.spyOn(axios, "get").mockImplementation(vi.fn().mockResolvedValue({ data: 'graph TD;' }));
 
     await processFile(ghMMDFile, item, rootRemoteDir, "testLocalDir");
-    let expectedPath = path.join("testLocalDir", item.repoUrl, path.relative(rootRemoteDir, ghMMDFile.path));
+    let expectedPath = path.join("testLocalDir", item.repoName, path.relative(rootRemoteDir, ghMMDFile.path));
     expectedPath = path.join(path.dirname(expectedPath), path.basename(expectedPath, path.extname(expectedPath)) + '.md');
 
     expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(expectedPath), { recursive: true });
@@ -77,7 +78,7 @@ describe("processFile", () => {
     vi.spyOn(fs, "writeFileSync").mockImplementationOnce(vi.fn());
     vi.spyOn(axios, "get").mockImplementation(vi.fn().mockResolvedValue({ data: ghMDFile }));
     await processFile(ghMDFile, item, rootRemoteDir, "testLocalDir");
-    let expectedPath = path.join("testLocalDir", item.repoUrl, path.relative(rootRemoteDir, ghMDFile.path));
+    let expectedPath = path.join("testLocalDir", item.repoName, path.relative(rootRemoteDir, ghMDFile.path));
     expectedPath = path.join(path.dirname(expectedPath), path.basename(expectedPath, path.extname(expectedPath)) + '.md');
 
     expect(fs.mkdirSync).toHaveBeenCalledWith(path.dirname(expectedPath), { recursive: true });
@@ -97,4 +98,4 @@ describe("processFile", () => {
     expect(fs.writeFileSync).toHaveBeenCalledTimes(0);
   });
 
-})
+});
