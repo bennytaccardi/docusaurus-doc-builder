@@ -7,10 +7,6 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,6 +24,9 @@ jobs:
   deploy:
     needs: [tests]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
