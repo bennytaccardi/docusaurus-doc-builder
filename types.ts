@@ -1,15 +1,15 @@
 export interface Item {
-  repoUrl: string,
+  repoName: string,
   owner: string,
   branch: string,
-  remoteDir: string,
-  localName: string,
+  remoteDocsDir: string,
+  localDocsSubdir: string,
   token: string
 }
 
 export interface PluginOptions {
   docSource: Item[],
-  localDir: string
+  localDocsDir: string
 }
 
 export interface GHFile {
