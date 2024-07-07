@@ -20,7 +20,7 @@ jobs:
         run: npm ci # Using npm ci for CI environments
 
       - name: Run tests
-        run: npm run tests
+        run: npm run test
 
   changeset_checks:
     needs: [tests]
