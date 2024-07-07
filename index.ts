@@ -45,7 +45,6 @@ export async function processFile(file: GHFile, item: Item, rootRemoteDir: strin
 
 export async function downloadRemoteDoc(item: Item, rootRemoteDir: string, localDir: string): Promise<void> {
   try {
-    console.log();
     const files = await fetchFiles(item);
     await Promise.all(files.map(file => processFile(file, item, rootRemoteDir, localDir)));
   } catch (error) {
