@@ -1,12 +1,18 @@
 {
   "name": "docusaurus-doc-builder",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bennytaccardi/docusaurus-doc-builder.git"
+  },
   "scripts": {
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "start": "tsc index.ts && node index.js"
+    "start": "tsc index.ts && node index.js",
+    "changeset": "changeset",
+    "changeset:status": "changeset status --since origin/main"
   },
   "author": "BennyTaccardi",
   "license": "ISC",
@@ -14,6 +20,7 @@
     "@vitest/ui": "^1.6.0"
   },
   "dependencies": {
+    "@changesets/cli": "^2.27.7",
     "axios": "^1.7.2"
   }
 }

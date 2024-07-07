@@ -1,31 +1,46 @@
 
-name: pull-request-ci
+name: production-ci
 on:
   release:
-    types: [published]
+    branches: [main]
 
 jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '16' # or specify your preferred version
+          node-version-file: '.nvmrc' # or specify your preferred version
 
       - name: Install dependencies
-        run: npm ci # Using npm ci for CI environments
+        run: npm ci
 
       - name: Run tests
         run: npm run test
   deploy:
     needs: [tests]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Deploy to npm
-        run: npm publish --provenance --access public
+        run: npm publish --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
