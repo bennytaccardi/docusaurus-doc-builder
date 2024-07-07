@@ -1,8 +1,10 @@
 
 name: production-ci
 on:
-  release:
-    types: [published]
+  pull_requests:
+    branches:
+      - main
+    types: [closed]
 
 jobs:
   tests:
