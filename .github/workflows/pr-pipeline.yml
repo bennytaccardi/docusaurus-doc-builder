@@ -20,9 +20,11 @@ jobs:
         run: npm ci # Using npm ci for CI environments
 
       - name: Run tests
-        run: npm run test
+        run: npm run tests
 
-      - name: Create Release Pull Request
-        uses: changesets/action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  changeset_checks:
+    needs: [tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check changeset
+        run: npm run changeset:status

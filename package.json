@@ -11,7 +11,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "start": "tsc index.ts && node index.js",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "changeset:status": "changeset status"
   },
   "author": "BennyTaccardi",
   "license": "ISC",
