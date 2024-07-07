@@ -2,7 +2,7 @@
 name: production-ci
 on:
   release:
-    branches: [main]
+    types: [published]
 
 jobs:
   tests:
