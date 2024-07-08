@@ -29,13 +29,13 @@ In your `docusarus.config.ts` file, under "plugins" section, configure the `doc-
 ### Set up the doc-builder plugin
 `doc-builder` plugin offers a couple of customizations described in the following bullet list:
 
-- "repoName": Is the name of your repository from which you desire to grasp the documentation;
-- "owner": is the owner of the repository itself. Useful to get the proper remote files;
-- "branch": is the branch from which you desire to grasp your documentation;
-- "remoteDocsDir": is the remote dir in which the documentation has been placed;
-- "localDocsDir": is the local dir in which Docusaurus renders the documentation;
-- "localDocsSubdir": is the local dir in which you would to save your documentation (and it will be under ./${localDocsDir}/${localDocsSubdir});
-- "token": is the GH token. Mandatory when a repository is private;
+- _repoName_: Is the name of your repository from which you desire to grasp the documentation;
+- _owner_: is the owner of the repository itself. Useful to get the proper remote files;
+- _branch_: is the branch from which you desire to grasp your documentation;
+- _remoteDocsDir_: is the remote dir in which the documentation has been placed;
+- _localDocsDir_: is the local dir in which Docusaurus renders the documentation;
+- _localDocsSubdir_: is the local dir in which you would to save your documentation (and it will be under ./${localDocsDir}/${localDocsSubdir});
+- _token_: is the GH token. Mandatory when a repository is private;
 
 Example configuration:
 
