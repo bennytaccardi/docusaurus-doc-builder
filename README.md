@@ -1,21 +1,23 @@
 # Docusaurus-doc-builder
 
-`doc-builder` plugin, is an open-source Docusaurus plugin useful for building your documentation that relies on different repositories. 
+The doc-builder plugin is an open-source Docusaurus plugin designed to help you build documentation that spans multiple repositories.
+
 ## Getting started
 
 ### Prerequisites
-In order to install `doc-builder` plugin you should initialize a [new Docusaurus project](https://docusaurus.io/docs/installation).
+Before installing the `doc-builder` plugin, ensure you have initialized a [new Docusaurus project](https://docusaurus.io/docs/installation).
 ### Install doc-builder plugin
-The installation is pretty simple.
-You have to install the plugin using npm command
+To install the plugin, use the following npm command:
 `npm i docusaurus-doc-builder`
-After that you should configure it whitin Docusaurus.
+After installation, you need to configure the plugin within Docusaurus.
 
-In your `docusarus.config.ts`, under "plugins" item, you should set `doc-builder` plguin like the following
+### Configure Doc-Builder plugins
+
+In your `docusarus.config.ts` file, under "plugins" section, configure the `doc-builder` plugin as follows:
 ```
 
  plugins: [
-    ["./plugins/doc-builder/", {
+    ["docusaurus-doc-builder", {
       docSource: [{
         ...
       }],
@@ -31,5 +33,26 @@ In your `docusarus.config.ts`, under "plugins" item, you should set `doc-builder
 - "owner": is the owner of the repository itself. Useful to get the proper remote files;
 - "branch": is the branch from which you desire to grasp your documentation;
 - "remoteDocsDir": is the remote dir in which the documentation has been placed;
-- "localDocsDir": is the local dir in which Docusaurus renders the documentation
+- "localDocsDir": is the local dir in which Docusaurus renders the documentation;
 - "localDocsSubdir": is the local dir in which you would to save your documentation (and it will be under ./${localDocsDir}/${localDocsSubdir});
+- "token": is the GH token. Mandatory when a repository is private;
+
+Example configuration:
+
+```
+plugins: [
+  ["./plugins/doc-builder/", {
+    docSource: [{
+      repoName: "your-repo-name",
+      owner: "repo-owner",
+      branch: "main",
+      remoteDocsDir: "path/to/docs",
+      localDocsSubdir: "subdir"
+    }],
+    localDocsDir: "docs"
+  }],
+],
+```
+Currently, the `doc-builder` plugin supports only Markdown (.md) and Mermaid files.
+
+By setting up the doc-builder plugin with these configurations, you can efficiently manage and build documentation from different repositories into your Docusaurus site.
