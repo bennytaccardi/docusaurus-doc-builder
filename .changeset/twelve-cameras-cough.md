@@ -2,4 +2,4 @@
 "docusaurus-doc-builder": patch
 ---
 
-Changing pipelines
+Fixing bump version
